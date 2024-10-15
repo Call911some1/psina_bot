@@ -1,11 +1,14 @@
-# Dockerfile
-
 FROM python:3.10-slim
 
 WORKDIR /app
 
-# Устанавливаем необходимые системные зависимости для OpenCV
-RUN apt-get update && apt-get install -y libgl1-mesa-glx
+# Установка системных зависимостей для OpenCV
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
+    libsm6 \
+    libxrender1 \
+    libxext6 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Копируем файл зависимостей и устанавливаем их
 COPY requirements.txt .
@@ -14,10 +17,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем все остальные файлы проекта
 COPY . .
 
-# Копируем модель из локальной машины в контейнер
+# Копируем модель
 COPY best.pt /app/runs/detect/train/weights/
 
-# Не указываем токен прямо в Dockerfile
+# Устанавливаем переменные окружения
 ENV API_TOKEN=$API_TOKEN
 
 # Запуск бота
