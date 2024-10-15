@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Копируем модель из локальной машины в контейнер
-COPY COPY best.pt /app/runs/detect/train/weights/
+COPY best.pt /app/runs/detect/train/weights/
 
 # Не указываем токен прямо в Dockerfile
 ENV API_TOKEN=$API_TOKEN
